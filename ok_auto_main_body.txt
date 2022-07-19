@@ -1,0 +1,174 @@
+{"query" : "query SearchQuery($q: String, $filter: SearchFilterInput, $mediaSize: MediaSize = MEDIUM) {
+  search(q: $q, filter: $filter) {
+    announcements {
+      data {
+        ...AnnouncementContent
+        smallDescription {
+          valueText
+          __typename
+        }
+        noAdsense
+        __typename
+      }
+      paginatorInfo {
+        lastPage
+        hasMorePages
+        __typename
+      }
+      __typename
+    }
+    active {
+      category {
+        id
+        name
+        slug
+        icon
+        delivery
+        priceUnits
+        children {
+          id
+          name
+          slug
+          __typename
+        }
+        specifications {
+          isRequired
+          specification {
+            id
+            codename
+            label
+            type
+            class
+            datasets {
+              codename
+              label
+              __typename
+            }
+            dependsOn {
+              id
+              codename
+              __typename
+            }
+            subSpecifications {
+              id
+              codename
+              label
+              type
+              __typename
+            }
+            allSubSpecificationCodenames
+            __typename
+          }
+          __typename
+        }
+        parentTree {
+          id
+          name
+          slug
+          icon
+          children {
+            id
+            name
+            slug
+            icon
+            __typename
+          }
+          __typename
+        }
+        parent {
+          id
+          name
+          icon
+          __typename
+        }
+        __typename
+      }
+      count
+      __typename
+    }
+    suggested {
+      category {
+        id
+        name
+        slug
+        __typename
+      }
+      count
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment AnnouncementContent on Announcement {
+  id
+  title
+  slug
+  createdAt: refreshedAt
+  isFromStore
+  isCommentEnabled
+  userReaction {
+    isBookmarked
+    isLiked
+    __typename
+  }
+  hasDelivery
+  deliveryType
+  likeCount
+  description
+  status
+  cities {
+    id
+    name
+    slug
+    region {
+      id
+      name
+      slug
+      __typename
+    }
+    __typename
+  }
+  store {
+    id
+    name
+    slug
+    imageUrl
+    __typename
+  }
+  defaultMedia(size: $mediaSize) {
+    mediaUrl
+    __typename
+  }
+  price
+  pricePreview
+  priceUnit
+  oldPrice
+  priceType
+  exchangeType
+  __typename
+}
+",
+"variables" : {
+  "mediaSize": "MEDIUM",
+  "q": null,
+  "filter": {
+    "categorySlug": "automobiles",
+    "origin": null,
+    "connected": false,
+    "delivery": null,
+    "regionIds": [],
+    "cityIds": [],
+    "priceRange": [
+      null,
+      null
+    ],
+    "exchange": false,
+    "hasPictures": false,
+    "hasPrice": true,
+    "priceUnit": null,
+    "fields": [],
+    "page": 1,
+    "count": 48
+  }
+}}
