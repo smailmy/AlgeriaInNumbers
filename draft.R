@@ -142,16 +142,17 @@ init_tbl <- init_tbl %>%
 # API Method --------------------------------------------------------------
 
 
-library(httr)
-
-headers = c(
-  'Content-Type' = 'application/json'
-)
-
-body = readLines('ok_auto_main_body.txt')
-
-res <- VERB("POST", url = "https://api.ouedkniss.com/graphql", body = body, add_headers(headers))
+source('main_post_request.R')
 
 cat(content(res, 'text'))
 
+library(jsonlite)
+library(tidyverse)
 
+parsed <- fromJSON(content(res, 'text'), flatten=TRUE)
+
+df <- parsed$data$search$announcements$data %>% tibble()
+
+glimpse(df)
+
+list_id <- df %>% pull(id)
