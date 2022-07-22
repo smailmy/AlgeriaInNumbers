@@ -1,0 +1,13 @@
+library(httr)
+
+get_single_listing <- function(listing_id) {
+  
+  headers = c(
+    'Content-Type' = 'application/json'
+  )
+  
+  body = paste0('{"query":"query AnnouncementGet($id: ID!) {\\r\\n  announcement: announcementDetails(id: $id) {\\r\\n    id\\r\\n    reference\\r\\n    title\\r\\n    slug\\r\\n    description\\r\\n    orderExternalUrl\\r\\n    createdAt: refreshedAt\\r\\n    price\\r\\n    pricePreview\\r\\n    oldPrice\\r\\n    priceType\\r\\n    exchangeType\\r\\n    priceUnit\\r\\n    hasDelivery\\r\\n    deliveryType\\r\\n    hasPhone\\r\\n    hasEmail\\r\\n    quantity\\r\\n    status\\r\\n    street_name\\r\\n    category {\\r\\n      slug\\r\\n      name\\r\\n      __typename\\r\\n    }\\r\\n    defaultMedia(size: ORIGINAL) {\\r\\n      mediaUrl\\r\\n      __typename\\r\\n    }\\r\\n    medias(size: LARGE) {\\r\\n      mediaUrl\\r\\n      mimeType\\r\\n      thumbnail\\r\\n      __typename\\r\\n    }\\r\\n    categories {\\r\\n      id\\r\\n      name\\r\\n      slug\\r\\n      __typename\\r\\n    }\\r\\n    specs {\\r\\n      specification {\\r\\n        label\\r\\n        codename\\r\\n        type\\r\\n        __typename\\r\\n      }\\r\\n      value\\r\\n      valueText\\r\\n      __typename\\r\\n    }\\r\\n    user {\\r\\n      id\\r\\n      username\\r\\n      displayName\\r\\n      avatarUrl\\r\\n      __typename\\r\\n    }\\r\\n    isFromStore\\r\\n    store {\\r\\n      id\\r\\n      name\\r\\n      slug\\r\\n      description\\r\\n      imageUrl\\r\\n      url\\r\\n      followerCount\\r\\n      announcementsCount\\r\\n      locations {\\r\\n        location {\\r\\n          address\\r\\n          region {\\r\\n            slug\\r\\n            name\\r\\n            __typename\\r\\n          }\\r\\n          __typename\\r\\n        }\\r\\n        __typename\\r\\n      }\\r\\n      categories {\\r\\n        name\\r\\n        slug\\r\\n        __typename\\r\\n      }\\r\\n      __typename\\r\\n    }\\r\\n    cities {\\r\\n      id\\r\\n      name\\r\\n      region {\\r\\n        id\\r\\n        name\\r\\n        slug\\r\\n        __typename\\r\\n      }\\r\\n      __typename\\r\\n    }\\r\\n    isCommentEnabled\\r\\n    noAdsense\\r\\n    variants {\\r\\n      id\\r\\n      hash\\r\\n      specifications {\\r\\n        specification {\\r\\n          codename\\r\\n          label\\r\\n          __typename\\r\\n        }\\r\\n        valueText\\r\\n        value\\r\\n        mediaUrl\\r\\n        __typename\\r\\n      }\\r\\n      price\\r\\n      oldPrice\\r\\n      quantity\\r\\n      __typename\\r\\n    }\\r\\n    __typename\\r\\n  }\\r\\n}\\r\\n","variables":{"id":"', listing_id,'"}}')
+  
+  res <- VERB("POST", url = "https://api.ouedkniss.com/graphql", body = body, add_headers(headers))
+  
+}
