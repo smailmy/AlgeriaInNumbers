@@ -1,8 +1,11 @@
 # API Method --------------------------------------------------------------
+print(Sys.time())
+
 library(jsonlite)
 library(tidyverse)
 library(bigrquery)
 library(DBI)
+library(glue)
 
 project_id <- "algeria-in-numbers"
 dataset <- "automobiles"
@@ -13,6 +16,8 @@ con <- dbConnect(
   dataset = dataset,
   billing = project_id
 )
+
+setwd('~/AlgeriaInNumbers/')
 
 source('main_post_request.R')
 
@@ -32,7 +37,7 @@ df <- parsed$data$search$announcements$data %>% tibble() %>%
 
 list_id <- df %>% pull(id)
 
-list_id
+print(paste(length(list_id), "new listings."))
 
 source('single_post_request.R')
 
@@ -89,6 +94,8 @@ if (length(list_id) > 0) {
     
     transmission <- car_specs %>% filter(car_spec == 'transmission') %>% pull(value_text) %>% as.character()
     
+    edition <- car_specs %>% filter(car_spec == 'nom_special') %>% pull(value_text) %>% as.character()
+    
     car_options_en <- parsed_single$data$announcement$specs %>% tibble() %>%
       filter(specification.codename == 'car-options') %>% 
       unnest(value) %>% 
@@ -115,14 +122,7 @@ if (length(list_id) > 0) {
     source('insert_data.R')
     print(i)
     i <- i + 1
-    Sys.sleep(5)
+    Sys.sleep(3)
   }
   
 }
-
-
-
-
-
-
-

@@ -16,13 +16,13 @@ sql_query <- glue_sql("INSERT INTO automobiles.ok_auto_raw (id, title, descripti
      price_review, price_type, exchange_type, price_unit, category_name, year, 
      engine, color, energy, papers_state, distance_travelled, brand, model, transmission,
      car_options_en, car_options_fr, user_id, region_id, region_name, city_name,
-     insert_date)
+     insert_date, edition)
      
      VALUES({id}, {title}, {description}, {created_at}, {price}, {price_preview}, 
      {price_type}, {exchange_type}, {price_unit}, {category_name}, {year}, 
      {engine}, {color}, {energy}, {papers_state}, {distance_travelled}, {brand}, 
      {model}, {transmission}, {car_options_en}, {car_options_fr}, {user_id}, 
-     {region_id}, {region_name}, {city_name}, CURRENT_TIMESTAMP())",
+     {region_id}, {region_name}, {city_name}, CURRENT_TIMESTAMP(), {edition})",
          .con = con)
 
 
