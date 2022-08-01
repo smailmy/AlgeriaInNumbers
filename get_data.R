@@ -19,21 +19,33 @@ con <- dbConnect(
 
 setwd('~/AlgeriaInNumbers/')
 
+# tibble(created_at = '2022-07-22T20:00:00.000Z') %>% write_csv('created_at_log.csv')
+
+created_at_log <- read_csv('created_at_log.csv', col_types = list(col_character()))
+
+last_datetime <- max(created_at_log$created_at)
+
 source('main_post_request.R')
 
 res <- get_main_listings()
 
 parsed <- fromJSON(content(res, 'text'), flatten=TRUE)
 
-last_datetime <- dbGetQuery(con, "SELECT created_at FROM `algeria-in-numbers.automobiles.ok_auto`
-           ORDER BY 1 DESC LIMIT 1") %>% 
-  pull(created_at)
+# last_datetime <- dbGetQuery(con, "SELECT created_at FROM `algeria-in-numbers.automobiles.ok_auto`
+#            ORDER BY 1 DESC LIMIT 1") %>% 
+#   pull(created_at)
 
-last_datetime <- ifelse(length(last_datetime) == 0, '2022-07-22T20:00:00.000Z', last_datetime)
+# last_datetime <- ifelse(length(last_datetime) == 0, '2022-07-22T20:00:00.000Z', last_datetime)
 
 df <- parsed$data$search$announcements$data %>% tibble() %>%
   filter(createdAt > last_datetime) %>% 
   arrange(createdAt)
+
+max_date <- df %>% pull(createdAt) %>% max()
+
+created_at_log %>% 
+  add_row(created_at = max_date) %>% 
+  write_csv('created_at_log.csv')
 
 list_id <- df %>% pull(id)
 
